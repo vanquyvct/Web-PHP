@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập</title>
+    <link rel="stylesheet" href="assets/css/Login.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+
+<body>
+<header>
+    <a href="index.html" class="logo">
+        <img src="assets/img/logo.png" alt="GreenFood Logo">
+    </a>
+</header>
+
+<main>
+    <div class="content1">
+        <img src="assets/img/background.jpg" alt="BackGround">
+        <div class="login-form">
+            <div class="Title">
+                <h1>Đăng nhập</h1>
+            </div>
+            <div class="Sub-title">Bắt đầu mua sắm ngay</div>
+        </div>
+
+        <div class="main">
+            <form action="" method="POST" class="form" id="form-1">
+                <div class="spacer"></div>
+
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input id="email" name="email" type="text" placeholder="Email" class="form-control">
+                    <span class="form-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Mật khẩu</label>
+                    <input id="password" name="password" type="password" placeholder="Password" class="form-control">
+                    <span class="form-message"></span>
+                </div>
+
+                <p id="login-error" style="color: red; text-align: center; margin-top: 10px; min-height: 1em; font-weight: bold;"></p>
+                <button type="button" class="form-submit" id="login-button">Đăng Nhập</button>
+
+                <div class="register-link">
+                    Chưa có tài khoản? <a href="Signup.html">Đăng ký ngay</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="footer-content">
+        <p class="Company-name"> Công ty thực phẩm GreenFood</p>
+        <p class="web-author"> B22DCKH100 - Nguyễn Văn Quý</p>
+
+        <div class="social-media">
+            <a href="#" class="X-button">
+                <img src="assets/img/x.png" alt="X">
+            </a>
+            <a href="#" class="instagram-button">
+                <img src="assets/img/instagram.png" alt="Instagram">
+            </a>
+            <a href="#" class="youtube-button">
+                <img src="assets/img/youtube.png" alt="Youtube">
+            </a>
+            <a href="#" class="linkedin-button">
+                <img src="assets/img/linkedin.png" alt="LinkedIn">
+            </a>
+        </div>
+    </div>
+</footer>
+
+<script>
+    const loginForm = document.getElementById('form-1');
+    const loginButton = document.getElementById('login-button');
+    const errorElement = document.getElementById('login-error');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+
+    const apiBase = 'http://localhost/GreenFood/public'; // <<< KIỂM TRA LẠI URL NÀY
+
+    // Hàm kiểm tra xem người dùng đã đăng nhập hay chưa bằng cách kiểm tra token VÀ ROLE
+    (function checkAlreadyLoggedIn() {
+        const token = localStorage.getItem('authToken');
+        const authUserString = localStorage.getItem('authUser');
+
+        if (token && authUserString) {
+            try {
+                const authUser = JSON.parse(authUserString);
+                // QUAN TRỌNG: Tên thuộc tính Role phải khớp với tên trong response từ server
+                // Ví dụ: nếu server trả về "role" (chữ thường) thì dùng authUser.role
+                // Nếu server trả về "Role" (chữ hoa) thì dùng authUser.Role
+                // Giả sử server trả về "Role" (chữ hoa đầu)
+                if (authUser && authUser.Role === 1) { // Kiểm tra Role của admin là 1
+                    console.log('Admin already logged in, redirecting to Product-Manage.html');
+                    window.location.href = 'Product-Manage.html';
+                } else {
+                    console.log('User already logged in, redirecting to Homepage.html');
+                    window.location.href = 'Homepage.html';
+                }
+            } catch (e) {
+                console.error("Error parsing authUser from localStorage or checking role:", e);
+                // Nếu có lỗi, xóa thông tin cũ để tránh vòng lặp
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('authUser');
+            }
+        }
+    })();
+
+
+    if (loginButton && emailInput && passwordInput && errorElement) {
+        loginButton.addEventListener('click', async function(event) {
+            event.preventDefault();
+            errorElement.textContent = '';
+
+            const payload = {
+                email: emailInput.value.trim(),
+                password: passwordInput.value
+            };
+
+            if (!payload.email || !payload.password) {
+                errorElement.textContent = 'Vui lòng nhập email và mật khẩu.';
+                return;
+            }
+
+            loginButton.disabled = true;
+            loginButton.textContent = 'Đang xử lý...';
+
+            try {
+                const response = await fetch(`${apiBase}/api/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                // Cố gắng parse JSON bất kể response status để lấy thông tin lỗi nếu có
+                let data;
+                try {
+                    data = await response.json();
+                } catch (parseError) {
+                    console.error("Failed to parse response as JSON:", parseError);
+                    const textResponse = await response.text(); // Đọc thử dạng text để debug
+                    throw new Error(`Server response (status ${response.status}) was not valid JSON. Response text: ${textResponse}`);
+                }
+
+
+                if (response.ok && data.access_token && data.user) {
+                    console.log('Login successful:', data);
+
+                    localStorage.setItem('authToken', data.access_token);
+                    localStorage.setItem('authUser', JSON.stringify(data.user));
+
+                    errorElement.style.color = 'green';
+                    errorElement.textContent = 'Đăng nhập thành công! Đang chuyển hướng...';
+
+                    setTimeout(() => {
+                        // QUAN TRỌNG: Tên thuộc tính Role phải khớp với tên trong response từ server
+                        // Ví dụ: nếu server trả về "role" (chữ thường) thì dùng data.user.role
+                        // Nếu server trả về "Role" (chữ hoa) thì dùng data.user.Role
+                        // Giả sử server trả về "Role" (chữ hoa đầu)
+                        if (data.user.Role === 1) { // Kiểm tra Role của admin là 1
+                            window.location.href = 'Product-Manage.html';
+                        } else {
+                            window.location.href = 'Homepage.html';
+                        }
+                    }, 1500);
+
+                } else {
+                    console.error('Login failed:', data);
+                    let errorMessage = 'Đăng nhập thất bại.';
+                    if (data.errors && data.errors.email && Array.isArray(data.errors.email)) {
+                        errorMessage = data.errors.email.join(' ');
+                    } else if (data.message) {
+                        errorMessage = data.message;
+                    }
+                    errorElement.style.color = 'red';
+                    errorElement.textContent = errorMessage;
+                    loginButton.disabled = false;
+                    loginButton.textContent = 'Đăng Nhập';
+                }
+
+            } catch (error) {
+                console.error('Network or script error:', error);
+                errorElement.style.color = 'red';
+                errorElement.textContent = error.message || 'Lỗi kết nối hoặc xử lý. Vui lòng thử lại.';
+                loginButton.disabled = false;
+                loginButton.textContent = 'Đăng Nhập';
+            }
+        });
+    } else {
+        let missingElements = [];
+        if (!loginButton) missingElements.push('#login-button');
+        if (!emailInput) missingElements.push('#email');
+        if (!passwordInput) missingElements.push('#password');
+        if (!errorElement) missingElements.push('#login-error');
+        if (missingElements.length > 0) {
+            console.error('Critical: Missing essential form elements:', missingElements.join(', '));
+            if(errorElement) {
+                errorElement.textContent = "Lỗi: Không tìm thấy các thành phần form cần thiết.";
+            } else {
+                alert("Lỗi cấu hình trang đăng nhập. Không thể thực hiện.");
+            }
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,309 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+header {
+  width: 100%;       /* Chiều rộng */
+  height: 100px;      /* Chiều cao */
+  background-color: #CDF96E; /* Màu xanh lá cây (bạn có thể thay đổi mã màu) */
+  display: flex;
+}
+
+.logo img{
+  height: 80px;
+  width: 80px;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.about-us{
+  text-decoration: none;
+  color: black;
+  font-family: Arial;
+  margin-top: 45px;
+  margin-left: 1050px;
+  white-space: nowrap;
+}
+
+.login-btn {
+  text-decoration: none;
+  color: black;
+  background-color: #61C467;
+  border: 2px solid black;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-family: Arial;
+  margin-top: 35px;
+  margin-left: 50px;
+  margin-bottom: 28px;
+  white-space: nowrap;
+}
+
+/* Hiệu ứng khi hover (di chuột qua) */
+.login-btn:hover {
+  background-color: #45a049;
+  cursor: pointer;
+}
+
+.signup-btn {
+  text-decoration: none;
+  color: black;
+  background-color: #E3E3E3;
+  border: 2px solid black;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-family: Arial;
+  margin-top: 35px;
+  margin-left: 30px;
+  margin-bottom: 28px;
+  white-space: nowrap;
+}
+
+.content1 {
+  width: 100%;
+  height: 663px;
+  overflow: hidden;
+
+}
+
+.content1 img{
+  width: 100%;
+  height: auto;
+  opacity: 0.5;
+}
+
+.Welcome-Title .title {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Dịch tâm ra chính giữa */
+  text-align: center;              /* Căn giữa chữ nếu có nhiều dòng */
+  color: #000000;                     /* Màu chữ, có thể điều chỉnh tùy nền */
+  font-size: 32px;                 /* Kích thước chữ, có thể thay đổi */
+  font-family: Arial;
+  text-shadow: black 0.05em 0.05em 0.05em;
+  white-space: nowrap;
+}
+
+.Welcome-Title .sub-title {
+  font-size: 30px;
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-family: Arial;
+  color: #303030;
+}
+
+.explore-btn {
+  display: inline-block;       /* Hiển thị dưới dạng khối nội bộ */
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin-top: 60px;            /* Tạo khoảng cách so với tiêu đề */
+  padding: 10px 20px;          /* Kích thước nút */
+  background-color: #61C467;   /* Màu nền */
+  color: #000;                 /* Màu chữ */
+  text-decoration: none;       /* Bỏ gạch chân */
+  border-radius: 8px;          /* Bo góc 8px */
+  font-family: Arial;
+  font-size: 16px;
+  font-weight: bold;
+  border: 2px solid black;     /* Đường viền nút (tuỳ chọn) */
+  text-align: center;          /* Căn giữa nội dung trong nút */
+}
+
+.explore-btn:hover {
+  background-color: #45a049;   /* Hiệu ứng hover */
+  cursor: pointer;
+}
+
+
+.content2 {
+  width: 100%;
+  display: flex;
+  height: 641px;
+  background: #CDF69E;
+}
+
+.Sub-heading{
+  font-family: Arial;
+  margin-left: 64px;
+  margin-top: 64px;
+}
+
+.heading{
+  font-family: Arial;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.subheading{
+  font-family: Arial;
+  font-size: 16px;
+  margin-top: 8px;
+  color: #757575;
+}
+
+/* Phần CSS cho khách hàng đánh giá */
+.customer-reviews {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 40px;
+  width: 100%;
+  padding: 0 50px;
+}
+
+.review {
+  background-color: #ffffff;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.review:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.review::before {
+  content: """;
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  font-size: 60px;
+  color: #61C467;
+  opacity: 0.2;
+  font-family: Georgia, serif;
+}
+
+.review-text {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333333;
+  margin-bottom: 15px;
+  position: relative;
+  z-index: 1;
+}
+
+.customer-name {
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  color: #61C467;
+  text-align: right;
+}
+
+.customer-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+  border: 3px solid #CDF69E;
+}
+
+.customer-info {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.rating {
+  color: #FFD700;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+/* Điều chỉnh phần content2 để hiển thị đúng */
+.content2 {
+  flex-direction: column;
+  padding: 30px 0;
+  align-items: center;
+}
+
+.Sub-heading {
+  text-align: center;
+  margin: 30px auto;
+}
+
+/* Thêm nút chuyển đánh giá */
+.review-controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  gap: 15px;
+}
+
+.review-control-btn {
+  background-color: #61C467;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.review-control-btn:hover {
+  background-color: #45a049;
+}
+
+footer{
+  width: 100%;
+  height: 145px;
+  background-color: #FFFFFF;
+}
+
+.footer-content{
+  margin-top: 15px;
+  font-family: Arial;
+  text-align: right;
+  margin-right: 40px;
+}
+
+.Company-name{
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.web-author{
+  font-size: 16px;
+  margin-top: 5px;
+}
+
+.social-media{
+  margin-top: 15px;
+}
+
+.youtube-button {
+  margin-right: 15px;
+  text-decoration: none;
+}
+
+.instagram-button {
+  margin-right: 15px;
+  text-decoration: none;
+}
+
+.X-button{
+  margin-right: 15px;
+  text-decoration: none;
+}
+
+

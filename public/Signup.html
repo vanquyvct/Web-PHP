@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký</title>
+    <link rel="stylesheet" href="assets/css/Signup.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+
+<body>
+<header>
+    <a href="index.html" class="logo">
+        <img src="assets/img/logo.png" alt="GreenFood Logo">
+    </a>
+</header>
+
+<content>
+    <div class="content1">
+        <img src="assets/img/background.jpg" alt="BackGround">
+        <div class="Signup-Form">
+            <div class="Title">
+                <h1>Đăng ký</h1>
+            </div>
+            <div class="Sub-title">Bắt đầu mua sắm ngay</div>
+        </div>
+
+        <div class="main">
+            <form action="" method="POST" class="form" id="form-1">
+                <div class="spacer"></div>
+
+                <div class="form-group">
+                    <label for="name" class="form-label">Họ tên</label>
+                    <input id="name" name="name" type="text" placeholder="Nguyễn Văn Quý" class="form-control">
+                    <span class="form-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="form-label">Email address</label>
+                    <input id="email" name="email" type="text" placeholder="vanquy2301@gmail.com" class="form-control">
+                    <span class="form-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input id="password" name="password" type="password" placeholder="*******" class="form-control">
+                    <span class="form-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="password_confirmation" class="form-label">Nhập lại Password</label>
+                    <input id="password_confirmation" name="password_confirmation" type="password" placeholder="*******" class="form-control">
+                    <span class="form-message"></span>
+                </div>
+
+                <p id="signup-message" style="text-align: center; margin-top: 10px; min-height: 1em; font-weight: bold;"></p>
+
+                <button type="submit" class="form-submit">Đăng Ký</button>
+            </form>
+        </div>
+    </div>
+</content>
+
+<footer>
+    <div class="footer-content">
+        <p class="Company-name"> Công ty thực phẩm GreenFood</p>
+        <p class="web-author"> B22DCKH100 - Nguyễn Văn Quý</p>
+        <div class="social-media">
+            <a href="#" class="X-button"><img src="assets/img/x.png" alt="X"></a>
+            <a href="#" class="instagram-button"><img src="assets/img/instagram.png" alt="Instagram"></a>
+            <a href="#" class="youtube-button"><img src="assets/img/youtube.png" alt="Youtube"></a>
+            <a href="#" class="linkedin-button"><img src="assets/img/linkedin.png" alt="LinkedIn"></a>
+        </div>
+    </div>
+</footer>
+
+<script>
+    const apiBase = 'http://localhost/GreenFood/public';
+
+    const signupForm = document.getElementById('form-1');
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    // const addressInput = document.getElementById('address'); // Bỏ address
+    const passwordInput = document.getElementById('password');
+    const passwordConfirmationInput = document.getElementById('password_confirmation'); // Thêm password confirmation
+    const submitButton = signupForm.querySelector('button[type="submit"]');
+    const messageElement = document.getElementById('signup-message');
+
+    function displayMessage(text, isError = false) {
+        if (messageElement) {
+            messageElement.textContent = text;
+            messageElement.style.color = isError ? 'red' : 'green';
+        } else {
+            alert(text);
+        }
+    }
+
+    // Cập nhật điều kiện kiểm tra các element
+    if (signupForm && nameInput && emailInput && passwordInput && passwordConfirmationInput && submitButton) {
+        signupForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            console.log("Signup form submitted via JS.");
+
+            if(messageElement) messageElement.textContent = '';
+
+            const payload = {
+                name: nameInput.value.trim(),
+                email: emailInput.value.trim(),
+                // address: addressInput.value.trim(), // Bỏ address
+                password: passwordInput.value,
+                password_confirmation: passwordConfirmationInput.value // Thêm password confirmation
+            };
+
+            // Kiểm tra cơ bản phía client
+            if (!payload.name || !payload.email || !payload.password || !payload.password_confirmation) {
+                displayMessage('Vui lòng điền đầy đủ thông tin.', true);
+                return;
+            }
+            if (payload.password.length < 6) {
+                displayMessage('Mật khẩu phải có ít nhất 6 ký tự.', true);
+                return;
+            }
+            if (payload.password !== payload.password_confirmation) {
+                displayMessage('Mật khẩu nhập lại không khớp.', true);
+                return;
+            }
+
+            console.log("Payload ready:", payload);
+            submitButton.disabled = true;
+            submitButton.textContent = 'Đang xử lý...';
+
+            try {
+                const response = await fetch(`${apiBase}/api/signup`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(payload) // Gửi payload đã cập nhật
+                });
+
+                let data;
+                try {
+                    data = await response.json();
+                } catch (parseError) {
+                    const textResponse = await response.text();
+                    throw new Error(`Server response (status ${response.status}) was not valid JSON. Response text: ${textResponse}`);
+                }
+
+                if (response.ok) {
+                    displayMessage('Đăng ký thành công! Chuẩn bị chuyển hướng...', false);
+                    setTimeout(() => {
+                        window.location.href = 'Login.html';
+                    }, 2000);
+                } else {
+                    let errorMessage = 'Đăng ký thất bại. ';
+                    if (data && data.errors) {
+                        for (const key in data.errors) {
+                            errorMessage += `${data.errors[key].join(', ')} `;
+                        }
+                    } else if (data && data.message) {
+                        errorMessage += data.message;
+                    } else {
+                        errorMessage += `Lỗi máy chủ (${response.status}).`;
+                    }
+                    displayMessage(errorMessage, true);
+                }
+
+            } catch (error) {
+                console.error('Error during fetch or processing:', error);
+                displayMessage(`Lỗi: ${error.message || 'Không thể kết nối hoặc xử lý yêu cầu.'}`, true);
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Đăng Ký';
+            }
+        });
+    } else {
+        console.error("CRITICAL: Could not find all required signup form elements.");
+        let missing = [];
+        if (!signupForm) missing.push("form#form-1");
+        if (!nameInput) missing.push("input#name");
+        if (!emailInput) missing.push("input#email");
+        if (!passwordInput) missing.push("input#password");
+        if (!passwordConfirmationInput) missing.push("input#password_confirmation");
+        if (!submitButton) missing.push("button[type='submit']");
+        alert(`Lỗi cấu hình form đăng ký. Thiếu các element: ${missing.join(', ')}. Không thể thực hiện đăng ký.`);
+    }
+</script>
+</body>
+</html>

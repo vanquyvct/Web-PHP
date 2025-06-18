@@ -1,0 +1,88 @@
+:root {
+    --text-font: "Roboto Mono", monospace;
+}
+
+.main {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    width: 50%;
+    margin-top: 150px;
+}
+
+.heading {
+    font-family: var(--text-font);
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #fff;
+    align-self: center;
+    width: 676px;
+    height: 478px;
+    padding: 32px 24px;
+    margin: 24px;
+    text-align: center;
+    box-shadow: 0 2px 5px 0 rgba(51, 62, 73, 0.1);
+    border-radius: 24px;
+    padding-top: 80px;
+}
+
+.form-group {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-bottom: 20px;
+    padding: 0 10px 20px 10px;
+}
+
+.form-label {
+    font-family: var(--text-font);
+    position: absolute;
+    top: -10px;
+    left: 25px;
+    background: white;
+    padding: 0 4px;
+    font-size: 12px;
+    color: #888;
+}
+
+.form-control {
+    font-family: var(--text-font);
+    font-size: 12px;
+    height: 35px;
+    width: 100%;
+    padding: 10px 0 10px 10px;
+    border-radius: 8px;
+    border-color: #888;
+}
+
+.form-submit {
+    width: 600px;
+    height: 50px;
+    border-radius: 4px;
+    background-color: #1976d3;
+    border-color: transparent;
+    color: #fff;
+    font-weight: 700;
+    margin-top: 50px;
+}
+
+.form-submit:hover {
+    cursor: pointer;
+}
+
+.error {
+    border-color: red !important;
+}
+
+.form-message {
+    font-family: var(--text-font);
+    font-size: 14px;
+    color: red;
+}

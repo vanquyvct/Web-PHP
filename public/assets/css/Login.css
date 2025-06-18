@@ -1,0 +1,154 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+header {
+  width: 100%;
+  height: 100px;
+  background-color: #CDF96E;
+  display: flex;
+}
+
+.logo img{
+  height: 80px;
+  width: 80px;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.content1{
+  width: 100%;
+  height: 760px;
+  overflow: hidden;
+}
+
+.content1 img{
+  width: 100%;
+  height: auto;
+  opacity: 0.5;
+}
+
+.main{
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: Arial;
+}
+
+.form {
+  width: 360px;
+  min-height: 100px;
+  padding: 32px 24px;
+  background: #fff;
+  border-radius: 8px;
+  margin: 0 auto;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+
+.login-form {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: Arial;
+}
+
+.login-form .Title {
+  font-size: 32px;
+  text-shadow: black 0.05em 0.05em 0.05em;
+  color: #000000;
+  text-align: center;
+}
+
+.login-form .Sub-title {
+  font-size: 30px;
+  margin-top: 10px;
+  text-align: center;
+  color: #303030;
+}
+
+.form-submit {
+  display: block;
+  width: 85%;
+  padding: 12px 16px;
+  margin: 24px auto 0;
+  font-weight: 600;
+  color: #fff;
+  background: #4CAF50;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.form-submit:hover {
+  background: #45a049;
+}
+
+.DN{
+  text-decoration: none;
+}
+
+
+.register-link {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.register-link a {
+  color: #4CAF50;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}
+
+footer{
+  width: 100%;
+  height: 145px;
+  background-color: #FFFFFF;
+}
+
+.footer-content{
+  margin-top: 15px;
+  font-family: Arial;
+  text-align: right;
+  margin-right: 40px;
+}
+
+.Company-name{
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.web-author{
+  font-size: 16px;
+  margin-top: 5px;
+}
+
+.social-media{
+  margin-top: 15px;
+}
+
+.youtube-button {
+  margin-right: 15px;
+  text-decoration: none;
+}
+
+.instagram-button {
+  margin-right: 15px;
+  text-decoration: none;
+}
+
+.X-button{
+  margin-right: 15px;
+  text-decoration: none;
+}

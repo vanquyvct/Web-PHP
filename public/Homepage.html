@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreenFood - Trang Chủ</title>
+    <link rel="stylesheet" href="assets/css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/Homepage.css">
+    <style>
+        /* Thêm chút style cho nút logout để dễ nhận biết hơn khi hover */
+        .icons .fa-arrow-right:hover {
+            cursor: pointer;
+            color: #d32f2f; /* Màu đỏ khi hover, bạn có thể đổi màu khác */
+        }
+        #user-name-display {
+            margin-left: 10px; /* Thêm khoảng cách nếu hiển thị tên người dùng */
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <a href="Homepage.html" class="logo"> <img src="assets/img/logo.png" alt="GreenFood Logo">
+    </a>
+    <div class="icons">
+        <a href="Cart.html"><i class="fas fa-shopping-cart"></i></a>
+        <a href="Order-history.html"><i class="fas fa-sync-alt"></i></a>
+        <a href="Notification.html"><i class="fas fa-bell"></i></a>
+        <a href="User-info.html"><i class="fas fa-user"></i></a>
+        <i class="fas fa-arrow-right" id="logout-icon" title="Đăng xuất"></i>
+</header>
+
+<div class="content1">
+    <img src="assets/img/background.jpg" alt="BackGround">
+    <div class="Welcome-Title">
+        <div class="title">
+            <h1 id="welcome-user-title">Chào mừng bạn đến với GreenFood</h1> </div>
+        <div class="sub-title">
+            Chúc bạn một ngày tốt lành cùng GreenFood
+        </div>
+    </div>
+    <a href="Product-list.html" class="explore-btn">Bắt đầu mua sắm</a>
+</div>
+
+<footer>
+    <div class="footer-content">
+        <p class="Company-name"> Công ty thực phẩm GreenFood</p>
+        <p class="web-author"> B22DCKH100 - Nguyễn Văn Quý</p>
+
+        <div class="social-media">
+            <a href="#" class="X-button">
+                <img src="assets/img/x.png" alt="X">
+            </a>
+            <a href="#" class="instagram-button">
+                <img src="assets/img/instagram.png" alt="Instagram">
+            </a>
+            <a href="#" class="youtube-button">
+                <img src="assets/img/youtube.png" alt="Youtube">
+            </a>
+            <a href="#" class="linkedin-button">
+                <img src="assets/img/linkedin.png" alt="LinkedIn">
+            </a>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // --- Định nghĩa lại các hàm auth cơ bản nếu chúng không có trong file JS riêng ---
+    // --- Bạn nên đặt các hàm này vào một file JS chung (vd: main.js hoặc auth.js) và nhúng vào đây ---
+    const API_BASE_URL = 'http://localhost/GreenFood/public'; // <<< KIỂM TRA LẠI URL NÀY
+
+    function getAuthToken() {
+        return localStorage.getItem('authToken');
+    }
+
+    function getAuthHeaders() {
+        const token = getAuthToken();
+        const headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        };
+        if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
+        }
+        return headers;
+    }
+
+    function getAuthUser() {
+        const userString = localStorage.getItem('authUser');
+        if (userString) {
+            try {
+                return JSON.parse(userString);
+            } catch (e) {
+                console.error("Error parsing authUser from localStorage", e);
+                localStorage.removeItem('authUser'); // Xóa nếu không parse được
+                return null;
+            }
+        }
+        return null;
+    }
+
+    async function logoutUser() {
+        const token = getAuthToken();
+        if (token) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/logout`, {
+                    method: 'POST',
+                    headers: getAuthHeaders()
+                });
+                if (response.ok) {
+                    console.log('Successfully logged out from server.');
+                } else {
+                    const errorData = await response.json();
+                    console.error('Server logout failed.', errorData.message || errorData);
+                }
+            } catch (error) {
+                console.error('Error calling server logout API:', error);
+            }
+        }
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('authUser');
+        console.log('Token and user info removed from localStorage.');
+        window.location.href = 'Login.html'; // Chuyển hướng về trang đăng nhập
+    }
+    // --- Kết thúc phần định nghĩa hàm auth cơ bản ---
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const logoutIcon = document.getElementById('logout-icon');
+        const welcomeUserTitle = document.getElementById('welcome-user-title');
+        const userNameDisplay = document.getElementById('user-name-display'); // Thêm cho header
+
+        // Kiểm tra trạng thái đăng nhập
+        const token = getAuthToken();
+        const user = getAuthUser();
+
+        if (!token) {
+            // Nếu không có token, chuyển hướng về trang đăng nhập
+            // Chỉ chuyển hướng nếu trang hiện tại không phải là trang không yêu cầu login (ví dụ trang chủ có thể cho xem không cần login)
+            // Với Homepage.html, chúng ta giả định nó yêu cầu đăng nhập
+            console.log('No auth token found, redirecting to login.');
+            window.location.href = 'Login.html';
+            return; // Dừng thực thi script tiếp theo nếu chuyển hướng
+        }
+
+        // Nếu có token và thông tin người dùng
+        if (user && user.name) {
+            if (welcomeUserTitle) {
+                welcomeUserTitle.textContent = `Chào mừng ${user.name}`;
+            }
+            if (userNameDisplay) {
+                userNameDisplay.textContent = user.name; // Hiển thị tên ở header
+            }
+        } else {
+            // Nếu có token nhưng không có thông tin user trong localStorage,
+            // có thể gọi API /api/user để lấy lại và cập nhật localStorage
+            // hoặc đơn giản là hiển thị chào mừng chung.
+            if (welcomeUserTitle) {
+                welcomeUserTitle.textContent = 'Chào mừng bạn đến với GreenFood';
+            }
+            console.warn('User data not found in localStorage, but token exists.');
+            // Tùy chọn: fetchUserProfileAndUpdateStorage();
+        }
+
+
+        // Gắn sự kiện click cho nút đăng xuất
+        if (logoutIcon) {
+            logoutIcon.addEventListener('click', function() {
+                // Hỏi xác nhận trước khi đăng xuất
+                if (confirm('Bạn có chắc chắn muốn đăng xuất không?')) {
+                    logoutUser();
+                }
+            });
+        } else {
+            console.error('Logout icon (#logout-icon) not found!');
+        }
+
+        // (Tùy chọn) Gọi API /api/user để xác thực token và lấy thông tin user mới nhất từ server
+        // Điều này giúp đảm bảo token vẫn hợp lệ và user data là mới nhất.
+        async function fetchAndVerifyUser() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/user`, {
+                    method: 'GET',
+                    headers: getAuthHeaders()
+                });
+
+                if (response.ok) {
+                    const serverUser = await response.json();
+                    console.log('User verified with server:', serverUser);
+                    // Cập nhật lại localStorage và UI nếu cần
+                    localStorage.setItem('authUser', JSON.stringify(serverUser));
+                    if (welcomeUserTitle && serverUser.name) {
+                        welcomeUserTitle.textContent = `Chào mừng ${serverUser.name}`;
+                    }
+                    if (userNameDisplay && serverUser.name) {
+                        userNameDisplay.textContent = serverUser.name;
+                    }
+                } else if (response.status === 401) { // Token không hợp lệ hoặc hết hạn
+                    console.error('Token is invalid or expired. Logging out.');
+                    logoutUser(); // Gọi hàm logout đã bao gồm chuyển hướng
+                } else {
+                    console.error('Failed to verify user with server:', await response.text());
+                    // Có thể không cần làm gì thêm, hoặc xử lý tùy theo logic ứng dụng
+                }
+            } catch (error) {
+                console.error('Error verifying user with server:', error);
+                // Xử lý lỗi mạng, có thể thông báo cho người dùng
+            }
+        }
+
+        fetchAndVerifyUser(); // Gọi hàm này khi trang tải xong
+
+    });
+</script>
+</body>
+</html>

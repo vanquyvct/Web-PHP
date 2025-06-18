@@ -1,0 +1,189 @@
+@import "Product-list.css";
+
+.cart-container {
+    padding: 20px;
+    background-color: #fff;
+    margin: 20px auto;
+    max-width: 1000px;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.cart-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cart-table th, .cart-table td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    vertical-align: middle;
+}
+
+.cart-table th {
+    background-color: #f0f0f0;
+    font-weight: 600;
+}
+
+.product-info {
+    display: flex;
+    align-items: center;
+    text-align: left;
+}
+
+.product-info img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+/* --- BEGIN MODIFIED SECTION FOR QUANTITY CONTROLS --- */
+.cart-table td:nth-child(3) { /* Target the 3rd column (Quantity) */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Tăng khoảng cách giữa các phần tử */
+}
+
+.quantity-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #2e2e2e; /* Giữ màu nền tối theo file gốc của bạn */
+    color: #fff; /* Giữ màu chữ trắng */
+    border: none; /* Bỏ viền nếu không cần */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1em; /* Kích thước dấu +/- */
+    line-height: 1;
+    padding: 0;
+    transition: background-color 0.2s;
+}
+
+.quantity-btn:hover {
+    background-color: #4a4a4a; /* Màu đậm hơn chút khi hover */
+}
+
+.cart-table input[type="number"].quantity-input {
+    width: 55px; /* <<<< TĂNG CHIỀU RỘNG Ô NHẬP */
+    text-align: center;
+    margin: 0; /* Bỏ margin nếu dùng gap trên td */
+    padding: 8px 6px; /* <<<< TĂNG PADDING CHO Ô NHẬP */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    font-weight: 500; /* Làm chữ số lượng đậm hơn */
+    -moz-appearance: textfield;
+}
+
+.cart-table input[type="number"].quantity-input::-webkit-outer-spin-button,
+.cart-table input[type="number"].quantity-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+/* --- END MODIFIED SECTION FOR QUANTITY CONTROLS --- */
+
+.remove-item { /* Class cho icon xóa (thẻ <i>) */
+    color: #e74c3c;
+    cursor: pointer;
+    font-size: 1.2em;
+}
+
+.total-price {
+    text-align: right;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.checkout-btn {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Loại bỏ style nội tuyến cho nút bằng cách style ở đây */
+#clear-cart-btn, #checkout-now-btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500; /* Thống nhất font-weight */
+    transition: background-color 0.2s;
+}
+
+#clear-cart-btn {
+    margin-right:10px;
+    background-color: #e74c3c;
+    color:white;
+}
+#clear-cart-btn:hover {
+    background-color: #c0392b;
+}
+
+#checkout-now-btn {
+    background-color: #4CAF50;
+    color:white;
+    font-size: 1.1em; /* Giữ lại font-size lớn hơn cho nút chính */
+    padding: 12px 25px; /* Giữ lại padding lớn hơn */
+}
+#checkout-now-btn:hover {
+    background-color: #45a047;
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .cart-table th, .cart-table td {
+        font-size: 12px;
+        padding: 10px;
+    }
+
+    .product-info {
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    .product-info img {
+        margin-bottom: 5px;
+    }
+
+    .cart-table td:nth-child(3) {
+        gap: 4px;
+    }
+    .quantity-btn {
+        width: 26px;
+        height: 26px;
+        font-size: 1em;
+    }
+    .cart-table input[type="number"].quantity-input {
+        width: 40px;
+        padding: 6px 4px;
+    }
+
+    .total-price {
+        font-size: 16px;
+    }
+
+    .checkout-btn button, #clear-cart-btn, #checkout-now-btn { /* Áp dụng cho tất cả các nút */
+        padding: 8px 15px;
+        font-size: 14px;
+        width: 100%; /* Các nút full width trên mobile để dễ nhấn hơn */
+        box-sizing: border-box; /* Đảm bảo padding không làm vỡ layout */
+    }
+    #clear-cart-btn {
+        margin-right: 0; /* Bỏ margin right trên mobile nếu các nút xếp chồng */
+        margin-bottom: 10px; /* Thêm khoảng cách dưới nếu xếp chồng */
+    }
+}

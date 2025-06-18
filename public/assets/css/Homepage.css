@@ -1,0 +1,26 @@
+/* Header */
+header {
+  background-color: #CDF96E;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo img{
+  height: 80px;
+  width: 80px;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.icons i {
+  margin-left: 20px;
+  font-size: 1.5em;
+  color: #333;
+  cursor: pointer;
+}
+.icons i:hover{
+  color:#4CAF50
+}

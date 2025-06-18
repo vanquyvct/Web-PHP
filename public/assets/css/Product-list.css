@@ -1,0 +1,345 @@
+/* Reset and General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif; /* Thêm font-family chung */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f8f9fa; /* Màu nền dịu mắt hơn */
+}
+
+a {
+    text-decoration: none;
+    color: #333; /* Màu link mặc định */
+}
+
+/* Header */
+header {
+    background-color: #CDF96E; /* */
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: sticky; /* Làm header dính khi cuộn */
+    top: 0;
+    z-index: 1000; /* Đảm bảo header nằm trên */
+}
+
+.logo img {
+    height: 70px; /* Giảm kích thước một chút */
+    width: 70px;
+    /* margin-top: 10px;
+    margin-left: 10px; */ /* Bỏ margin này nếu padding của header đã đủ */
+}
+
+.icons i {
+    margin-left: 20px;
+    font-size: 1.5em;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.3s ease; /* Hiệu ứng chuyển màu */
+}
+
+.icons i:hover {
+    color: #4CAF50;
+}
+
+/* Main Content */
+main {
+    display: flex;
+    flex: 1;
+    padding: 20px;
+    gap: 20px; /* Khoảng cách giữa aside và section.products */
+}
+
+/* Sidebar (Aside) */
+aside {
+    width: 280px; /* Tăng nhẹ chiều rộng sidebar */
+    flex-shrink: 0; /* Không cho sidebar co lại khi không đủ chỗ */
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Khoảng cách giữa các filter group */
+}
+
+.filter-group {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08); /* Shadow nhẹ nhàng hơn */
+}
+
+.filter-group-title {
+    display: block;
+    font-weight: 600; /* Chữ đậm cho tiêu đề group */
+    margin-bottom: 12px; /* Khoảng cách dưới tiêu đề group */
+    font-size: 1.1em;
+    color: #333;
+}
+
+.search-container {
+    display: flex; /* Cho input và button nằm trên 1 hàng */
+}
+
+.search-input {
+    flex-grow: 1; /* Input chiếm phần lớn không gian */
+    padding: 10px; /* Tăng padding */
+    border: 1px solid #ddd;
+    border-radius: 4px 0 0 4px;
+    font-size: 0.95em;
+}
+
+.search-button {
+    padding: 10px 15px; /* Tăng padding */
+    background-color: #5cb85c; /* Màu xanh lá cây thân thiện */
+    color: white;
+    border: 1px solid #5cb85c;
+    border-left: none; /* Bỏ viền trái để liền với input */
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+    background-color: #4cae4c; /* Màu đậm hơn khi hover */
+    border-color: #4cae4c;
+}
+
+/* Styles cho phần category filters */
+.filters#category-filters label {
+    display: block;
+    margin-bottom: 10px; /* Khoảng cách giữa các radio button */
+    font-size: 0.95em; /* Kích thước chữ */
+    color: #555;
+    cursor: pointer;
+}
+
+.filters#category-filters label input[type="radio"] {
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+/* Styles cho select sắp xếp */
+.filter-select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 0.95em;
+    color: #333;
+    cursor: pointer;
+}
+
+/* Product Section */
+.products {
+    flex: 1;
+    min-width: 0; /* Quan trọng để flex item có thể co lại */
+}
+
+/* .filter-options đã bị comment trong HTML mới, nếu dùng lại cần style */
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Điều chỉnh minmax */
+    gap: 20px;
+}
+
+.product-item {
+    border: 1px solid #e0e0e0; /* Viền nhẹ hơn */
+    padding: 15px; /* Tăng padding */
+    text-align: center;
+    border-radius: 8px; /* Bo góc nhiều hơn */
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out; /* Hiệu ứng khi hover */
+}
+
+.product-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.product-item img {
+    width: 100%;
+    height: 160px; /* Chiều cao cố định cho ảnh */
+    object-fit: cover; /* Đảm bảo ảnh vừa vặn, không bị méo */
+    margin-bottom: 12px;
+    border-radius: 4px; /* Bo góc nhẹ cho ảnh */
+}
+
+.product-name {
+    font-weight: 500; /* Giảm độ đậm */
+    font-size: 1em; /* Kích thước chữ tên SP */
+    color: #333;
+    margin-bottom: 8px;
+    height: 40px; /* Giới hạn chiều cao, tránh layout nhảy khi tên quá dài */
+    overflow: hidden; /* Ẩn phần tên thừa */
+    text-overflow: ellipsis; /* Thêm dấu ... nếu tên quá dài (cần display block/inline-block) */
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Giới hạn 2 dòng */
+    -webkit-box-orient: vertical;
+}
+
+.product-price {
+    color: #2c3e50; /* Màu giá đậm hơn */
+    font-weight: 600;
+    font-size: 1.1em; /* Tăng kích thước giá */
+}
+
+.product-price span[style*="line-through"] { /* Giá gốc bị gạch */
+    font-size: 0.9em;
+    margin-right: 5px;
+}
+.product-price span[style*="color: red"] { /* Giá khuyến mãi */
+    font-size: 1em;
+}
+
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Căn giữa các nút theo chiều dọc */
+    margin-top: 30px; /* Tăng khoảng cách trên */
+    padding-bottom: 10px; /* Thêm padding dưới để không quá sát footer */
+}
+
+.pagination button {
+    padding: 10px 15px; /* Tăng padding nút */
+    margin: 0 5px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    color: #337ab7; /* Màu chữ nút */
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+    background-color: #e9ecef;
+    border-color: #ccc;
+    color: #23527c;
+}
+
+.pagination button.active {
+    background-color: #5cb85c; /* Màu xanh lá cho nút active */
+    color: white;
+    border-color: #5cb85c;
+    font-weight: 600;
+}
+
+.pagination button:disabled {
+    color: #aaa;
+    cursor: not-allowed;
+    background-color: #f9f9f9;
+}
+
+
+/* Footer */
+footer {
+    width: 100%;
+    /* height: 145px; */ /* Để chiều cao tự động theo nội dung */
+    background-color: #FFFFFF;
+    padding: 20px 0; /* Thêm padding trên dưới cho footer */
+    border-top: 1px solid #e7e7e7; /* Viền trên nhẹ cho footer */
+    margin-top: auto; /* Đẩy footer xuống cuối nếu nội dung trang ngắn */
+}
+
+.footer-content {
+    /* margin-top: 15px; */ /* Không cần nếu footer đã có padding */
+    font-family: Arial, sans-serif;
+    text-align: center; /* Căn giữa nội dung footer */
+    /* margin-right: 40px; */ /* Bỏ margin này khi căn giữa */
+}
+
+.Company-name {
+    font-size: 1.5em; /* Điều chỉnh kích thước */
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.web-author {
+    font-size: 0.9em;
+    margin-top: 5px;
+    color: #777;
+    margin-bottom: 15px; /* Khoảng cách dưới */
+}
+
+.social-media {
+    /* margin-top: 15px; */ /* Đã có margin-bottom từ .web-author */
+}
+
+.social-media a img { /* Thêm style cho ảnh social media */
+    width: 28px; /* Kích thước icon social */
+    height: 28px;
+    margin: 0 8px; /* Khoảng cách giữa các icon */
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+.social-media a:hover img {
+    opacity: 1;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 992px) { /* Điểm breakpoint cho tablet ngang và nhỏ hơn */
+    .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    main {
+        flex-direction: column;
+        padding: 15px; /* Giảm padding trên mobile */
+        gap: 15px;
+    }
+
+    aside {
+        width: 100%;
+        margin-right: 0;
+        /* margin-bottom: 20px; Bỏ, dùng gap của main */
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); /* Cột nhỏ hơn trên mobile */
+        gap: 15px;
+    }
+
+    .product-item img {
+        height: 140px;
+    }
+
+    .header .logo img {
+        height: 60px;
+        width: 60px;
+    }
+    .header .icons i {
+        font-size: 1.3em;
+        margin-left: 15px;
+    }
+}
+
+@media (max-width: 480px) { /* Cho điện thoại rất nhỏ */
+    .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+    .product-item img {
+        height: 120px;
+    }
+    .footer-content .Company-name {
+        font-size: 1.3em;
+    }
+    .footer-content .web-author {
+        font-size: 0.8em;
+    }
+}
