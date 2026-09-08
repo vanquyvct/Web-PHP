@@ -34,12 +34,6 @@ class AuthController extends Controller
             $userData['PhoneNumber'] = $request->PhoneNumber;
         }
 
-        // Logic tạo tài khoản admin đặc biệt
-        if (strtolower($request->email) === 'admin@greenfood.vn') {
-            $userData['Role'] = 1;
-            $userData['Status'] = 1; // Đảm bảo admin cũng active
-        }
-
         $user = User::create($userData);
 
         return response()->json(['message' => 'User registered successfully!', 'user' => $user], 201);

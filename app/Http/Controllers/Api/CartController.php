@@ -40,7 +40,7 @@ class CartController extends Controller
                 'original_price' => (float) $product->Price,
                 'discount_percentage' => (float) ($product->Discount * 100),
                 'price_after_discount' => (float) $priceAfterDiscount,
-                'image_url' => $product->Image ? asset('storage/' . $product->Image) : asset('assets/img/placeholder.png'),
+                'image_url' => $product->Image ? asset('storage/' . $product->Image) : asset('assets/img/placeholder.svg'),
                 'quantity_in_cart' => $quantityInCart,
                 'sub_total' => (float) $subTotal,
                 'category' => $product->Category,

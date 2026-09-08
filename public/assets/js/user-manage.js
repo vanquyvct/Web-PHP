@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const API_BASE_URL = 'http://localhost/GreenFood/public';
+    const API_BASE_URL = ''; // Same-origin API; serve the application from its public directory.
     const userTableBody = document.getElementById("user-table-body");
     const searchInput = document.getElementById("user-search-input");
     const paginationControls = document.getElementById('pagination-controls');

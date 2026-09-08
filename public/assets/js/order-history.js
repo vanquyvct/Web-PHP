@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     console.log('Order History Script Loaded.'); // Initial script load check
 
-    const API_BASE_URL = 'http://localhost/GreenFood/public';
+    const API_BASE_URL = ''; // Same-origin API; serve the application from its public directory.
 
     // --- Authentication Helper Functions ---
     function getAuthToken() {
@@ -242,7 +242,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     const productRow = modalOrderProductsBody.insertRow();
                     const imageUrl = product.Image ?
                         (String(product.Image).startsWith('http') ? product.Image : `${API_BASE_URL}/storage/${product.Image}`) :
-                        'assets/img/placeholder.png'; // Ensure this placeholder exists
+                        'assets/img/placeholder.svg'; // Ensure this placeholder exists
                     const pricePaid = parseFloat(product.pivot && product.pivot.Price !== undefined ? product.pivot.Price : (product.Price || 0));
                     const quantity = parseInt(product.pivot && product.pivot.Quantity !== undefined ? product.pivot.Quantity : 0);
                     const subtotal = pricePaid * quantity;
