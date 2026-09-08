@@ -1,61 +1,91 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# GreenFood
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A student e-commerce application built with Laravel 12, Sanctum, and an existing HTML/CSS/JavaScript storefront. The foundation milestone makes local setup portable; the Blade/Tailwind redesign and commerce hardening are still planned.
 
-## About Laravel
+## Requirements
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- PHP 8.2+ with Composer 2 and Laravel's standard extensions, including PDO SQLite, fileinfo, mbstring, XML, curl, and zip.
+- Node.js 22 LTS or newer and npm (verified with Node 24).
+- SQLite is the local default: no MySQL, Redis, Docker, or external account required.
+- On Windows, enable `extension=pdo_sqlite` and `extension=sqlite3` in the PHP CLI's php.ini if needed. Run `php --ini` to find it.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## First-time setup
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+From the repository directory:
 
-## Learning Laravel
+```sh
+composer install
+npm ci
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Copy `.env.example` to `.env` if `.env` does not already exist. Use `Copy-Item .env.example .env` in PowerShell or `cp .env.example .env` on macOS/Linux. Never overwrite an existing environment file blindly.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```sh
+php artisan key:generate
+php -r "file_exists('database/database.sqlite') || touch('database/database.sqlite');"
+php artisan migrate
+php artisan storage:link
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+These instructions are for a new local SQLite database. Check `DB_CONNECTION` and `DB_DATABASE` before migrating any existing installation. Do not use `migrate:fresh` or `db:wipe` on a database you need to keep. Only generate a key for a new installation; changing an existing key invalidates encrypted data.
 
-## Laravel Sponsors
+Before seeding, set `DEMO_ADMIN_PASSWORD` in your private `.env` to a unique password of at least 12 characters, then run:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```sh
+php artisan db:seed
+npm run build
+composer run dev
+```
 
-### Premium Partners
+Open http://127.0.0.1:8000 (not the Vite port). `composer run dev` runs Laravel, the queue listener, and Vite; Ctrl+C stops them. Alternatively run `php artisan serve` and `npm run dev` in separate terminals. Pail is omitted from the combined command because it requires Unix process-control support unavailable in native Windows PHP.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development/)**
-- **[Active Logic](https://activelogic.com)**
+The existing static pages load their CSS/JS directly; Vite builds the existing Laravel/Tailwind scaffold for future work. Serving the app still works after `npm run build` without a running Vite server.
 
-## Contributing
+If Windows refuses `storage:link`, enable Developer Mode or run that command in an elevated terminal. Product photos are copied into `storage/app/public/demo` by the seeder and served through this link. Do not serve the repository root through Apache: its document root must be `public`. APIs and pages now use the same origin; there is no required `/GreenFood/public` installation path.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Demo data and accounts
 
-## Code of Conduct
+The seeder provides eight products, four categories matching the existing filters, varied stock, four discounts, and local images. Categories retain the existing string field; no schema changes were needed.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+| Account | Email | Password |
+| --- | --- | --- |
+| Customer | customer@greenfood.test | GreenFood-demo-2026 |
+| Administrator | admin@greenfood.test | Your private DEMO_ADMIN_PASSWORD |
 
-## Security Vulnerabilities
+Demo seeding refuses environments other than `local`/`testing`. It creates missing records without resetting existing passwords, prices, stock, or roles. If the admin email already belongs to a customer, seeding refuses to promote it. Re-running the seed is safe for existing records; it does not reset the demo. These are local demo accounts, not deployment credentials. Remove `DEMO_ADMIN_PASSWORD` from `.env` after initial seeding if desired.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+For a separately provisioned administrator, use the CLI-only command:
 
-## License
+```sh
+php artisan greenfood:create-admin owner@example.com --name="Store Owner"
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+It prompts for a hidden password and confirmation, requires 12 characters, and refuses any existing email. Passwords are never command-line arguments. Public signup always creates customers, including signup with the former special administrator email.
+
+## Verification
+
+```sh
+php artisan test
+npm run build
+php artisan route:list
+```
+
+Tests use an in-memory SQLite database via `phpunit.xml`. Foundation tests cover signup privileges, safe admin creation, guarded/repeatable demo seeding, and the root route. They do not certify checkout correctness. After startup, visit `/`, `/Product-list.html`, and `/api/products`; log in with each demo account to reach customer/admin pages.
+
+Use `composer install` and `npm ci` for subsequent reproducible installs. Use `npm install` only when intentionally changing the dependency lockfile. PHP dependencies remain pinned by `composer.lock`.
+
+## Structure
+
+- `routes/api.php`: existing public/customer/admin JSON endpoints.
+- `routes/web.php`: serves the existing landing page at `/`.
+- `app/Http/Controllers/Api`: existing commerce and account behavior.
+- `app/Console/Commands/CreateAdmin.php`: safe CLI administrator provisioning.
+- `database/seeders/DatabaseSeeder.php`: local-only demo dataset.
+- `public/*.html`, `public/assets`: current storefront and admin screens.
+- `resources`: Laravel Blade/Tailwind/Vite scaffold, not yet the main storefront.
+
+The unused, syntactically corrupted `product-list-user.js` was removed; the catalog page retains its working inline implementation. Asset path casing and the missing image fallback were corrected.
+
+## Known limitations / next milestone
+
+This foundation is not production-ready. Stored-XSS risks, localStorage tokens, missing account-lock enforcement/throttling, checkout/cancellation races, stale order totals, destructive historical foreign-key cascades, and SQLite-incompatible monthly/yearly revenue queries remain for the security/commerce milestone. Bank transfer is a manual placeholder workflow with legacy instructions, not verified payment processing. No real payment should be made during a demo. The storefront has not been redesigned.

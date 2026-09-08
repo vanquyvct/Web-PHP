@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const API_BASE_URL = 'http://localhost/GreenFood/public';
+    const API_BASE_URL = ''; // Same-origin API; serve the application from its public directory.
 
     // --- Authentication Helper Functions ---
     function getAuthToken() {
@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const imageUrl = item.image_url ?
                 (item.image_url.startsWith('http') ? item.image_url : `${API_BASE_URL}${item.image_url.startsWith('/') ? '' : '/'}${item.image_url}`) :
-                'assets/img/placeholder.png';
+                'assets/img/placeholder.svg';
 
             const originalPrice = parseFloat(item.original_price);
             const priceAfterDiscount = parseFloat(item.price_after_discount);

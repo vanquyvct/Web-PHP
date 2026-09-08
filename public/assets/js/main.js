@@ -1,7 +1,7 @@
 /* ==============================
    Config chung
    ============================== */
-const API_BASE = 'http://localhost/GreenFood/public'; // Đảm bảo URL này đúng
+const API_BASE = ''; // Same-origin API; serve the application from its public directory.
 
 function getAuthToken() {
     return localStorage.getItem('authToken');

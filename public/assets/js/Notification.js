@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     console.log('Notification Script Loaded.');
 
-    const API_BASE_URL = 'http://localhost/GreenFood/public';
+    const API_BASE_URL = ''; // Same-origin API; serve the application from its public directory.
 
     // --- Auth Helper Functions (reuse or define here if not in a global script) ---
     function getAuthToken() { return localStorage.getItem('authToken'); }

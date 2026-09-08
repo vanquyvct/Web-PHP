@@ -96,7 +96,7 @@
         <p class="Company-name"> Công ty thực phẩm GreenFood</p>
         <p class="web-author"> B22DCKH100 - Nguyễn Văn Quý</p>
         <div class="social-media">
-            <a href="#" class="X-button"><img src="assets/img/x.png" alt="X"></a>
+            <a href="#" class="X-button"><img src="assets/img/X.png" alt="X"></a>
             <a href="#" class="instagram-button"><img src="assets/img/instagram.png" alt="Instagram"></a>
             <a href="#" class="youtube-button"><img src="assets/img/youtube.png" alt="Youtube"></a>
             <a href="#" class="linkedin-button"><img src="assets/img/linkedin.png" alt="LinkedIn"></a>
@@ -105,7 +105,7 @@
 </footer>
 
 <script>
-    const API_BASE_URL = 'http://localhost/GreenFood/public'; // Đảm bảo đây là URL đúng
+    const API_BASE_URL = ''; // Same-origin API; serve the application from its public directory.
 
     // --- Authentication Helper Functions (Nên đưa vào file JS dùng chung) ---
     function getAuthToken() {
@@ -198,7 +198,7 @@
         function renderProductDetails(product) {
             const imageUrl = product.Image ?
                 (product.Image.startsWith('http') ? product.Image : `${API_BASE_URL}/storage/${product.Image}`) :
-                'assets/img/placeholder.png'; // Cập nhật placeholder nếu cần
+                'assets/img/placeholder.svg'; // Cập nhật placeholder nếu cần
 
             let priceDisplayHTML = '';
             const originalPrice = parseFloat(product.Price);
@@ -357,7 +357,7 @@
             products.slice(0, 4).forEach(product => { // Giới hạn 4 sản phẩm
                 const imageUrl = product.Image ?
                     (product.Image.startsWith('http') ? product.Image : `${API_BASE_URL}/storage/${product.Image}`) :
-                    'assets/img/placeholder.png';
+                    'assets/img/placeholder.svg';
 
                 let priceDisplay = formatCurrency(product.Price);
                 if (product.Discount && parseFloat(product.Discount) > 0) {

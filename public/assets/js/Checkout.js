@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const API_BASE_URL = 'http://localhost/GreenFood/public';
+    const API_BASE_URL = ''; // Same-origin API; serve the application from its public directory.
 
     // --- Authentication Helper Functions ---
     function getAuthToken() {
@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!orderItemsSummaryDiv || !summarySubtotalEl || !summaryTotalEl) return;
         orderItemsSummaryDiv.innerHTML = '';
         cartData.items.forEach(item => {
-            const imageUrl = item.image_url || 'assets/img/placeholder.png';
+            const imageUrl = item.image_url || 'assets/img/placeholder.svg';
             const itemDiv = document.createElement('div');
             itemDiv.classList.add('order-item');
             itemDiv.innerHTML = `

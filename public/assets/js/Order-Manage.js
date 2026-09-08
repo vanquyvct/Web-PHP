@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const API_BASE_URL = 'http://localhost/GreenFood/public';
+    const API_BASE_URL = ''; // Same-origin API; serve the application from its public directory.
     const orderTableBody = document.getElementById("order-table-body");
     const searchInput = document.getElementById("order-search-input");
     const statusFilterSelect = document.getElementById("status-filter-select");
@@ -257,7 +257,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (order.products && order.products.length > 0) {
             order.products.forEach(p => {
                 const row = modalDetailProductsTbody.insertRow();
-                const imageUrl = p.Image ? (String(p.Image).startsWith('http') ? p.Image : `${API_BASE_URL}/storage/${p.Image}`) : 'assets/img/placeholder.png';
+                const imageUrl = p.Image ? (String(p.Image).startsWith('http') ? p.Image : `${API_BASE_URL}/storage/${p.Image}`) : 'assets/img/placeholder.svg';
                 const priceAtOrder = parseFloat(p.pivot.Price);
                 const discountAtOrder = parseFloat(p.pivot.Discount); // This is percentage e.g. 0.1 for 10%
                 const quantity = parseInt(p.pivot.Quantity);

@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const API_BASE_URL = 'http://localhost/GreenFood/public';
+    const API_BASE_URL = ''; // Same-origin API; serve the application from its public directory.
     const productTableBody = document.getElementById("product-table-body");
     const addNewProductBtn = document.getElementById("add-new-product-btn");
     const productFormModal = document.getElementById("product-form-modal");
@@ -154,8 +154,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             }
 
-            let imageUrl = 'assets/img/placeholder.png';
-            let fullImageUrlForModal = 'assets/img/placeholder.png';
+            let imageUrl = 'assets/img/placeholder.svg';
+            let fullImageUrlForModal = 'assets/img/placeholder.svg';
             if (product.Image) {
                 if (product.Image.startsWith('http')) {
                     imageUrl = product.Image;
@@ -445,7 +445,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             else if (event.target.classList.contains('view-image-btn')) {
                 const imageUrl = event.target.dataset.imageurl;
-                if (imageUrl && imageUrl !== 'assets/img/placeholder.png' && !imageUrl.endsWith('undefined') && !imageUrl.endsWith('null')) {
+                if (imageUrl && imageUrl !== 'assets/img/placeholder.svg' && !imageUrl.endsWith('undefined') && !imageUrl.endsWith('null')) {
                     const modal = document.createElement('div');
                     modal.style.position = 'fixed';
                     modal.style.left = '0';
